@@ -7,7 +7,7 @@ Tested with **Kali Linux** in local labs and **TryHackMe VPN** environments.
 
 ## 🎯 Use case
 
-- Upload and download files **from targets to Kali**
+- Upload files **from targets to Kali** when upload capability is required
 - Works for:
   - Local labs (virt-manager / NAT)
   - TryHackMe / HTB targets via VPN (`tun0`)
@@ -34,7 +34,7 @@ python3 -m venv ~/venvs/ftp
 source ~/venvs/ftp/bin/activate
 pip install pyftpdlib
 deactivate
-````
+```
 
 This is done **once**.
 You do **not** reinstall this for every lab.
@@ -98,19 +98,20 @@ source ~/.zshrc
 ftpstart
 ```
 
-Default values:
+Defaults:
+- Port: `2121`
+- User: `test`
+- Password: `Test123!`
+- Directory: **current working directory (`pwd`)**
 
-* Port: `2121`
-* User: `test`
-* Password: `Test123!`
-* Directory: `~/loot`
+Custom parameters (port/user/password):
 
----
-
-### Custom parameters
+(Change directory before starting the server.)
 
 ```bash
-ftpstart 2121 mau S3cr3t! ~/loot
+cd ~/loot
+ftpstart 2121 test S3cr3t!
+
 ```
 
 ---
