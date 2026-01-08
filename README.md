@@ -57,7 +57,6 @@ ftpstart() {
   local PORT="${1:-2121}"
   local USER="${2:-test}"
   local PASS="${3:-Test123!}"
-  local DIR="${4:-$HOME/loot}"
   local VENV="$HOME/venvs/ftp"
 
   if [[ ! -d "$VENV" ]]; then
@@ -65,16 +64,14 @@ ftpstart() {
     return 1
   fi
 
-  mkdir -p "$DIR"
   source "$VENV/bin/activate" || return 1
-  cd "$DIR" || return 1
 
   local LANIP TUNIP
   LANIP="$(hostname -I | awk '{print $1}')"
   TUNIP="$(ip -4 -o addr show dev tun0 2>/dev/null | awk '{print $4}' | cut -d/ -f1)"
 
   echo "[+] FTP server starting"
-  echo "    Directory : $DIR"
+  echo "    Directory : $(pwd)"
   [[ -n "$LANIP" ]] && echo "    LAN       : ftp://$USER:$PASS@$LANIP:$PORT/"
   [[ -n "$TUNIP" ]] && echo "    VPN       : ftp://$USER:$PASS@$TUNIP:$PORT/"
   echo "    Stop with : CTRL+C"
@@ -82,6 +79,7 @@ ftpstart() {
 
   python -m pyftpdlib -p "$PORT" -u "$USER" -P "$PASS" -w
 }
+
 ```
 
 Reload your shell:
